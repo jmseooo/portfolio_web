@@ -39,6 +39,20 @@ tags.forEach((tag) => {
   });
 });
 
+// 태그가 아닌 곳을 아무 데나 누르면 기본 상태로 (설명글 닫고 태그 색 원래대로)
+function resetTags() {
+  if (!portrait.classList.contains('has-pick')) return;
+  tags.forEach((t) => t.setAttribute('aria-pressed', 'false'));
+  bios.forEach((p) => { p.hidden = true; });
+  portrait.classList.remove('has-pick');
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.tag')) resetTags();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !openPanel) resetTags();
+});
+
 // About: 번호(제목)를 누르면 이력 내용 펼침/접힘
 document.querySelectorAll('.acc .resume__head:not(:disabled)').forEach((btn) => {
   btn.addEventListener('click', () => {
@@ -131,8 +145,8 @@ if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine) and (
   window.addEventListener('pointermove', (e) => {
     x = e.clientX; y = e.clientY;
     root.classList.add('is-cursor-on');
-    const onCard = !!e.target.closest('.card a');
-    const onLink = !onCard && !!e.target.closest('a, button:not(:disabled)');
+    const onCard = !!e.target.closest('.card a:not(.is-soon)');
+    const onLink = !onCard && !!e.target.closest('a:not(.is-soon), button:not(:disabled)');
     ring.classList.toggle('is-view', onCard);
     ring.classList.toggle('is-link', onLink);
   }, { passive: true });
@@ -256,22 +270,7 @@ window.addEventListener('popstate', () => {
 // 주소에 #harubee 가 있으면 바로 열기
 if (projectPanels[location.hash.slice(1)]) openProject(location.hash.slice(1), { push: false });
 
-// ---------- 프로젝트 줄: 마우스 휠(세로)로 가로 이동 ----------
-// 줄 끝에 닿으면 막지 않고 페이지 세로 스크롤로 넘김
-document.querySelectorAll('.cards').forEach((row) => {
-  row.addEventListener('wheel', (e) => {
-    if (e.ctrlKey) return;                                   // 핀치 줌은 그대로
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;     // 트랙패드 가로 스와이프는 기본 동작
-    const max = row.scrollWidth - row.clientWidth;
-    if (max <= 1) return;                                    // 넘칠 카드가 없으면 패스
-    const dy = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaY;
-    const atStart = row.scrollLeft <= 0 && dy < 0;
-    const atEnd = row.scrollLeft >= max - 1 && dy > 0;
-    if (atStart || atEnd) return;
-    e.preventDefault();
-    row.classList.add('is-wheeling');                         // 휠 도중엔 스냅 끔
-    row.scrollLeft += dy;
-    clearTimeout(row._wheelTimer);
-    row._wheelTimer = setTimeout(() => row.classList.remove('is-wheeling'), 180);
-  }, { passive: false });
+// ---------- Coming soon 카드: 눌러도 이동하지 않음 ----------
+document.querySelectorAll('.card a.is-soon').forEach((a) => {
+  a.addEventListener('click', (e) => e.preventDefault());
 });
