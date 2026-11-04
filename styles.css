@@ -1,0 +1,839 @@
+/* =========================================================
+   Jin Minseo Portfolio 2026
+   Figma: bUJaSvJM5dw0GMZaoBHHRv / node 1455:30550 (1440 × 4096)
+   - 1024px 이상: 1440 디자인을 화면 폭 비율(--u)로 그대로 재현
+   - 1023px 이하: 세로로 쌓이는 태블릿·모바일 레이아웃
+   ========================================================= */
+
+:root {
+  --bg: #1a1a1a;
+  --accent: #f5ff8c;
+  --accent-deep: #e1eb72;
+  --white: #ffffff;
+  --gray: #b2b2b2;
+  --ink: #2d2b2f;
+  --bio: #dcdee3;
+  --dim: rgba(255, 255, 255, 0.6);
+  --ws: "Wanted Sans", system-ui, sans-serif;
+  --pt: "Pretendard", system-ui, sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { background: var(--bg); scroll-behavior: smooth; scrollbar-gutter: stable; }  /* 상세 화면 열 때 스크롤바가 사라져도 폭이 안 바뀌게 */
+body {
+  container-type: inline-size;          /* cqw 기준 = 스크롤바 제외한 실제 화면 폭 */
+  --u: calc(100cqw / 1440);              /* Figma 1px */
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+button { font: inherit; }
+
+/* =========================================================
+   DESKTOP (≥1024px) — Figma 좌표 그대로
+   ========================================================= */
+.sec {
+  position: relative;
+  height: calc(1024 * var(--u));
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ---------- HERO ---------- */
+.hero__title { font-weight: inherit; }
+.hero__word,
+.hero__meta,
+.hero__tagline { position: absolute; white-space: nowrap; }
+
+.hero__word {
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: calc(110 * var(--u));
+  line-height: calc(131.27 * var(--u));
+  letter-spacing: calc(-2.2 * var(--u));
+  color: var(--accent);
+}
+.hero__word--product  { left: calc(44 * var(--u));     top: calc(72 * var(--u)); }
+.hero__word--designer { left: calc(326.55 * var(--u)); top: calc(204.34 * var(--u)); }
+.hero__word--year     { left: calc(1131.5 * var(--u)); top: calc(203.96 * var(--u)); }
+
+.hero__meta {
+  font-family: var(--ws);
+  font-weight: 400;
+  font-size: calc(34.56 * var(--u));
+  line-height: calc(51.23 * var(--u));
+  letter-spacing: calc(-0.35 * var(--u));
+}
+.hero__meta--name      { left: calc(602 * var(--u));     top: calc(144.58 * var(--u)); }
+.hero__meta--portfolio { left: calc(1136.16 * var(--u)); top: calc(144.97 * var(--u)); }
+
+.hero__tagline {
+  left: calc(332.76 * var(--u));
+  top: calc(344.46 * var(--u));
+  font-family: var(--pt);
+  font-size: calc(18.18 * var(--u));
+  line-height: calc(38.95 * var(--u));
+  letter-spacing: calc(-0.18 * var(--u));
+  color: var(--accent);
+}
+.hero__tagline span { display: block; }
+.hero__tagline span + span { margin-top: calc(-7.14 * var(--u)); } /* 두 줄 간격 31.81 */
+
+/* ---------- ABOUT ---------- */
+.about > * { position: absolute; }
+
+.about__daily {
+  left: calc(1142 * var(--u));
+  top: calc(89 * var(--u));
+  padding: 0 calc(3 * var(--u)) calc(3 * var(--u));
+  border-bottom: 1px solid var(--white);
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: calc(20 * var(--u));
+  line-height: calc(23.87 * var(--u));
+  white-space: nowrap;
+}
+
+/* 사진 + 태그 묶음 — 사진은 Figma(304×346)의 85%, 칩 크기(98×47)는 유지
+   사진 왼쪽 위 위치(183,249)는 Figma 그대로 → 묶음 367.4 × 318.1 */
+.portrait {
+  left: calc(129 * var(--u));
+  top: calc(225 * var(--u));
+  width: calc(367.4 * var(--u));
+  aspect-ratio: 367.4 / 318.1;
+}
+.portrait__img {
+  position: absolute;
+  left: 14.766%;
+  top: 7.545%;
+  width: 70.414%;
+  height: 92.455%;
+  object-fit: cover;
+}
+.tag {
+  position: absolute;
+  width: 26.674%;
+  height: 14.775%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: var(--accent);             /* 기본: 셋 다 Define 스타일 */
+  color: var(--ink);
+  font-family: var(--pt);
+  font-weight: 500;
+  font-size: calc(20 * var(--u));
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.25s, transform 0.2s;
+}
+.tag:hover { transform: translateY(-2px); }
+.tag:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+/* 하나를 고르면 나머지는 회색 글자 (Figma 원래 표현) */
+.portrait.has-pick .tag { color: var(--gray); }
+.portrait.has-pick .tag[aria-pressed="true"] { color: var(--ink); }
+
+.tag--iterate  { left: 55.199%; top: 0; }
+.tag--define   { left: 0;       top: 32.411%; }
+.tag--simplify { left: 73.326%; top: 51.650%; }
+
+.about__name {
+  left: calc(183 * var(--u));
+  top: calc(565 * var(--u));            /* 사진 축소만큼 위로 (사진 아래 22 유지) */
+  display: flex;
+  gap: calc(12 * var(--u));
+  font-family: var(--ws);
+  font-size: calc(20 * var(--u));
+  line-height: calc(23.87 * var(--u));
+  white-space: nowrap;
+}
+.about__bio {
+  left: calc(183 * var(--u));
+  top: calc(628 * var(--u));
+  width: calc(385 * var(--u));
+  font-family: var(--pt);
+  font-size: calc(16 * var(--u));
+  line-height: calc(30 * var(--u));
+  letter-spacing: -0.01em;
+  color: var(--bio);
+}
+.about__bio p { animation: bio-in 0.35s ease both; }
+@keyframes bio-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* 이력: 제목만 보이다가 누르면 펼침 */
+.resume {
+  left: calc(642 * var(--u));
+  top: calc(225 * var(--u));
+  width: calc(560 * var(--u));           /* Figma 447 → Awards 긴 문장이 잘리지 않게 확장 */
+  display: flex;
+  flex-direction: column;
+  gap: calc(63 * var(--u));              /* 닫힌 제목 사이 간격 (Figma) */
+}
+.acc { transition: margin-bottom 0.4s ease; }
+.acc.is-open { margin-bottom: calc(-23 * var(--u)); }  /* 열리면 내용→다음 제목 40 */
+.acc h2 { font: inherit; }
+.acc__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
+}
+.acc.is-open .acc__panel { grid-template-rows: 1fr; }
+.acc__inner { overflow: hidden; }
+.acc__inner > .exp { margin-top: calc(40 * var(--u)); }
+.resume__head {
+  border: 0;
+  background: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--u));
+  font-family: var(--pt);
+  font-weight: 500;
+  font-size: calc(40 * var(--u));
+  line-height: calc(47.73 * var(--u));
+  color: var(--accent);
+  white-space: nowrap;
+}
+.resume__head:disabled { cursor: default; }
+.resume__head:not(:disabled):hover { opacity: 0.8; }
+.resume__head:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
+
+.exp {
+  display: flex;
+  flex-direction: column;
+  gap: calc(33 * var(--u));
+  padding-left: calc(6 * var(--u));
+}
+.exp li {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--g) * var(--u));       /* Figma 행마다 다른 간격(74/24/21) */
+  font-family: var(--pt);
+  font-size: calc(14 * var(--u));
+  line-height: calc(17 * var(--u));
+  white-space: nowrap;
+}
+.exp__date { color: var(--dim); }
+/* Language·Awards: 날짜 칸 고정 (Experience 본문 시작 위치와 맞춤) */
+.exp--grid li {
+  display: grid;
+  grid-template-columns: calc(139 * var(--u)) 1fr;
+  gap: 0;
+  align-items: start;
+  white-space: normal;                  /* 칸보다 긴 문장은 줄바꿈 */
+}
+
+/* ---------- WORKS ---------- */
+.works { padding: calc(37 * var(--u)) 0 0 calc(127 * var(--u)); }
+.works__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-right: calc(45 * var(--u));
+}
+.works__title {
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: calc(36 * var(--u));
+  line-height: calc(42.96 * var(--u));
+  white-space: nowrap;
+}
+.works__title--first  { margin-left: calc(2 * var(--u)); }
+.works__title--second { margin: calc(80 * var(--u) - 6px) 0 0; }  /* 스크롤 줄 아래 여백 6px 보정 */
+.hero__at {
+  position: absolute;
+  left: calc(44 * var(--u));
+  top: calc(890.5 * var(--u));          /* 오른쪽 아래 메뉴(883~922)와 같은 줄 */
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: calc(20 * var(--u));
+  line-height: calc(23.87 * var(--u));
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  white-space: nowrap;
+}
+
+/* 프로젝트 줄: 가로 스크롤 (오른쪽 끝은 화면 끝까지 → Figma처럼 잘려 보임) */
+.cards {
+  display: flex;
+  gap: calc(36 * var(--u));
+  margin-top: calc(28 * var(--u) - 10px);
+  padding: 10px calc(45 * var(--u)) 6px 0;   /* 위: 호버로 떠오를 공간, 오른쪽: 끝 여백 */
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.cards::-webkit-scrollbar { display: none; }
+.cards.is-dragging { scroll-snap-type: none; cursor: grabbing; }
+.cards.is-wheeling { scroll-snap-type: none; }
+.cards.is-dragging a { pointer-events: none; }
+.card { flex: 0 0 calc(266 * var(--u)); scroll-snap-align: start; }
+.card img { -webkit-user-drag: none; user-select: none; }
+.card a { display: block; }
+.card__thumb {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #f0f5ff;
+}
+.card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.card a:hover .card__thumb img { transform: scale(1.04); }
+/* Steadi: 데스크톱에서는 섹션 오른쪽 끝(1440)에서 잘려 Figma와 동일, 모바일은 전체 노출 */
+
+.card__cap {
+  display: flex;
+  justify-content: space-between;
+  margin-top: calc(12 * var(--u));
+  font-family: var(--ws);
+  font-size: calc(20 * var(--u));
+  line-height: calc(23.87 * var(--u));
+  white-space: nowrap;
+}
+.card__badge { color: var(--accent); }
+
+/* ---------- CONTACT ---------- */
+.contact__info {
+  position: absolute;
+  left: calc(127 * var(--u));
+  top: calc(469 * var(--u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(38 * var(--u));
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: calc(20 * var(--u));
+  line-height: calc(23.87 * var(--u));
+  white-space: nowrap;
+}
+.contact__mail { display: flex; gap: calc(60 * var(--u)); }
+.contact__mail a { color: var(--accent); }
+.contact__links { display: flex; gap: calc(41 * var(--u)); }
+.contact__links a:last-child { margin-left: calc(2.3 * var(--u)); }
+.u {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+.contact__note {
+  position: absolute;
+  left: calc(666 * var(--u));
+  top: calc(177 * var(--u));
+  width: calc(488 * var(--u));
+  height: calc(650 * var(--u));
+  object-fit: cover;
+}
+
+/* ---------- 고정 UI ---------- */
+
+.dock {
+  position: fixed;
+  right: calc(45 * var(--u));
+  bottom: calc(102 * var(--u));
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(56 * var(--u));              /* Top 버튼 아래 ~ GNB 위 */
+  pointer-events: none;
+}
+.dock > * { pointer-events: auto; }
+
+.top {
+  width: calc(63 * var(--u));
+  height: calc(63 * var(--u));
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+}
+.top svg { width: calc(40 * var(--u)); height: calc(40 * var(--u)); }
+.top.is-on { opacity: 1; visibility: visible; transform: none; }
+
+/* 메뉴: Figma처럼 글자만 (탭바 프레임 없음). 글자 간격 18 유지 */
+.gnb {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-right: calc(-9 * var(--u));    /* 글자 오른쪽 끝은 Figma 위치(오른쪽 45) */
+  height: calc(39 * var(--u));
+}
+.gnb a {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0 calc(9 * var(--u));        /* 양옆 9씩 = 글자 사이 18 */
+  border-radius: 999px;
+  font-family: var(--pt);
+  font-size: calc(18.18 * var(--u));
+  line-height: calc(38.95 * var(--u));
+  letter-spacing: -0.01em;
+  transition: color 0.35s var(--ease-out, ease);
+}
+.gnb a.is-active { color: var(--accent); }
+
+/* =========================================================
+   TABLET · MOBILE (≤1023px)
+   ========================================================= */
+@media (max-width: 1023px) {
+  .sec { height: auto; overflow: visible; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 24px 140px;
+  }
+  .hero > *,
+  .hero__word { position: static; }
+  .hero__title { display: flex; flex-direction: column; order: 2; margin-top: auto; }
+  .hero__meta--name { order: 0; }
+  .hero__meta--portfolio { order: 1; position: absolute; right: 24px; top: 28px; }
+  .hero__word--year { order: 3; align-self: flex-end; }
+  .hero__tagline { order: 4; margin-top: 28px; white-space: normal; }
+  .hero__at { order: 5; position: static; margin-top: 24px; align-self: flex-start; font-size: 16px; line-height: 1.3; }
+
+  .hero__word {
+    font-size: clamp(64px, 17vw, 120px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .hero__word--designer { padding-left: 14%; }
+  .hero__meta { font-size: 20px; line-height: 1.5; letter-spacing: -0.01em; }
+  .hero__tagline { font-size: 16px; line-height: 1.7; letter-spacing: -0.01em; }
+  .hero__tagline span { display: inline; }
+  .hero__tagline span + span { margin: 0; }
+  .hero__tagline span:first-child::after { content: " "; }
+
+  /* ---------- ABOUT ---------- */
+  .about {
+    display: flex;
+    flex-direction: column;
+    padding: 96px 24px 140px;
+  }
+  .about > * { position: static; }
+  .about__daily {
+    align-self: flex-end;
+    padding: 0 3px 3px;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+  .portrait { position: relative; inset: auto; width: min(100%, 367px); margin-top: 48px; }
+  .tag { font-size: clamp(13px, 4vw, 20px); }
+  .about__name { margin-top: 20px; gap: 12px; font-size: 18px; line-height: 1.3; }
+  .about__bio { width: auto; max-width: 480px; margin-top: 20px; min-height: 0; font-size: 15px; line-height: 1.85; }
+
+  .resume { width: auto; margin-top: 72px; gap: 40px; }
+  .acc.is-open { margin-bottom: 0; }
+  .acc__inner > .exp { margin-top: 24px; }
+  .resume__head { gap: 8px; font-size: clamp(28px, 7vw, 40px); line-height: 1.2; }
+  .exp { gap: 20px; padding-left: 4px; }
+  .exp li {
+    display: grid;
+    grid-template-columns: 124px 1fr;
+    gap: 12px;
+    align-items: start;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: normal;
+  }
+
+  /* ---------- WORKS ---------- */
+  .works { padding: 96px 24px 140px; }
+  .works__top { flex-direction: column; gap: 12px; padding-right: 0; }
+  .works__title { font-size: 28px; line-height: 1.2; }
+  .works__title--first { margin-left: 0; }
+  .works__title--second { margin-top: 64px; }
+  .cards {
+    scroll-snap-type: x proximity;        /* 손가락으로 넘길 때만 카드 단위로 붙음 */
+    gap: 14px;
+    margin: 14px -24px 0;                 /* 화면 양끝까지 */
+    padding: 10px 24px 6px;
+    scroll-padding: 0 24px;
+  }
+  .card { flex-basis: min(68vw, 300px); }
+  .card__cap { margin-top: 10px; font-size: 16px; line-height: 1.3; white-space: normal; gap: 8px; }
+
+  /* ---------- CONTACT ---------- */
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    padding: 96px 24px 160px;
+  }
+  .contact__info,
+  .contact__note { position: static; }
+  .contact__info { gap: 28px; font-size: 18px; line-height: 1.3; white-space: normal; }
+  .contact__mail { flex-wrap: wrap; gap: 8px 40px; }
+  .contact__links { gap: 32px; }
+  .contact__links a:last-child { margin-left: 0; }
+  .contact__note { width: min(100%, 488px); height: auto; aspect-ratio: 488 / 650; }
+
+  .project__slides { padding: 0 16px; }   /* 모바일·태블릿은 여백 최소화 */
+  /* ---------- 고정 UI ---------- */
+  .dock { right: 16px; bottom: 20px; gap: 14px; }
+  .top { width: 48px; height: 48px; }
+  .top svg { width: 32px; height: 32px; }
+  /* 모바일은 원래대로 반투명 알약 배경 */
+  .gnb {
+    height: auto;
+    gap: 2px;
+    margin-right: 0;
+    padding: 4px;
+    border-radius: 999px;
+    background: rgba(26, 26, 26, 0.82);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .gnb a { padding: 0 12px; font-size: 15px; line-height: 2.2; }
+}
+
+/* 태블릿: 카드 3열 */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .cards { gap: 18px; margin: 22px -40px 0; padding: 10px 40px 6px; scroll-padding: 0 40px; }
+  .card { flex-basis: 260px; }
+  .hero, .about, .works, .contact { padding-left: 40px; padding-right: 40px; }
+  .hero__meta--portfolio { right: 40px; }
+}
+
+
+/* =========================================================
+   MOTION — 등장 · 호버 · 클릭
+   ========================================================= */
+:root { --ease-out: cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* ---------- 스크롤 등장 (script.js 가 .reveal / .is-in 부여) ---------- */
+.js .reveal {
+  opacity: 0;
+  translate: 0 28px;
+  transition: opacity 0.9s var(--ease-out), translate 0.9s var(--ease-out);
+  transition-delay: var(--d, 0s);
+}
+.js .reveal.is-in { opacity: 1; translate: 0 0; }
+/* 원래 갖고 있던 전환 효과 유지 */
+.js .acc.reveal { transition: opacity 0.9s var(--ease-out), translate 0.9s var(--ease-out), margin-bottom 0.4s ease; transition-delay: var(--d, 0s), var(--d, 0s), 0s; }
+.js .contact__note.reveal { transition: opacity 0.9s var(--ease-out), translate 0.9s var(--ease-out), transform 0.6s var(--ease-out), box-shadow 0.6s; transition-delay: var(--d, 0s), var(--d, 0s), 0s, 0s; }
+
+/* 히어로 큰 글자: 아래에서 밀려 올라오는 마스크 효과 */
+.js .hero__word.reveal { translate: 0 0.5em; clip-path: inset(0 0 100% 0); opacity: 1;
+  transition: translate 1.1s var(--ease-out), clip-path 1.1s var(--ease-out); transition-delay: var(--d, 0s); }
+.js .hero__word.reveal.is-in { translate: 0 0; clip-path: inset(-0.2em -0.1em -0.3em -0.1em); }
+
+/* daily 밑줄: 왼쪽에서 그려짐 */
+.about__daily { border-bottom-color: transparent; background-origin: border-box; background: linear-gradient(var(--white), var(--white)) left bottom / 100% 1px no-repeat; }
+.js .about__daily.reveal { background-size: 0% 1px; transition: opacity 0.9s var(--ease-out), translate 0.9s var(--ease-out), background-size 1s var(--ease-out) 0.3s; }
+.js .about__daily.reveal.is-in { background-size: 100% 1px; }
+
+/* ---------- 링크 밑줄 애니메이션 ---------- */
+.contact__mail a,
+.contact__links a:not(.u) {
+  background: linear-gradient(currentColor, currentColor) left calc(100% - 6px) / 0% 1px no-repeat;
+  transition: color 0.25s, background-size 0.35s var(--ease-out);
+}
+.contact__mail a,
+.contact__links a:not(.u) { background-position: left bottom; }
+.contact__mail a:hover,
+.contact__links a:not(.u):hover { background-size: 100% 1px; }
+.contact__links a:not(.u):hover { color: var(--accent); }
+
+.hero__at,
+.contact__links .u,
+.about__daily { transition: color 0.25s, opacity 0.9s var(--ease-out), translate 0.9s var(--ease-out); }
+.hero__at:hover,
+.contact__links .u:hover { color: var(--accent); }
+
+/* ---------- 프로필 ---------- */
+.portrait__img { transition: filter 0.5s, scale 0.6s var(--ease-out); }
+.portrait:hover .portrait__img { scale: 1.015; }
+.tag { transition: color 0.25s, transform 0.25s var(--ease-out); }
+.tag:hover { transform: translateY(-3px); }
+.tag:active { transform: translateY(0) scale(0.94); transition-duration: 0.08s; }
+.tag[aria-pressed="true"] { animation: tag-pop 0.45s var(--ease-out); }
+@keyframes tag-pop {
+  0% { transform: scale(0.9); }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ---------- 이력 아코디언 ---------- */
+.resume__head span:first-child { display: inline-block; transition: transform 0.35s var(--ease-out); }
+.resume__head:not(:disabled):hover { opacity: 1; }
+.resume__head:not(:disabled):hover span:first-child { transform: translateX(-4px); }
+.resume__head span:last-child { transition: transform 0.35s var(--ease-out); }
+.resume__head:not(:disabled):hover span:last-child { transform: translateX(6px); }
+.resume__head:not(:disabled):active { transform: scale(0.98); }
+.resume__head { transition: transform 0.15s; }
+.exp li {
+  opacity: 0;
+  translate: 0 10px;
+  transition: opacity 0.4s var(--ease-out), translate 0.4s var(--ease-out), color 0.2s;
+}
+.acc.is-open .exp li { opacity: 1; translate: 0 0; }
+.acc.is-open .exp li:nth-child(1) { transition-delay: 0.08s; }
+.acc.is-open .exp li:nth-child(2) { transition-delay: 0.13s; }
+.acc.is-open .exp li:nth-child(3) { transition-delay: 0.18s; }
+.acc.is-open .exp li:nth-child(4) { transition-delay: 0.23s; }
+.acc.is-open .exp li:nth-child(5) { transition-delay: 0.28s; }
+.acc.is-open .exp li:nth-child(6) { transition-delay: 0.33s; }
+.exp li:hover { color: var(--accent); }
+
+/* ---------- 프로젝트 카드 ---------- */
+.card a { transition: translate 0.45s var(--ease-out); }
+.card a:hover { translate: 0 -6px; }
+.card a:active { translate: 0 -2px; scale: 0.985; transition-duration: 0.1s; }
+.card__thumb { position: relative; }
+.card__thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0);
+  transition: background 0.4s;
+  pointer-events: none;
+}
+.card__thumb img { transition: transform 0.7s var(--ease-out); }
+.card a:hover .card__thumb img { transform: scale(1.06); }
+.card__cap > span:first-child { transition: color 0.25s; }
+.card a:hover .card__cap > span:first-child { color: var(--accent); }
+/* 다른 카드에 올리면 나머지는 살짝 어둡게 */
+@media (hover: hover) {
+  .cards:has(.card a:hover) .card a:not(:hover) .card__thumb::after { background: rgba(26, 26, 26, 0.45); }
+}
+
+/* ---------- 손글씨 노트 ---------- */
+.contact__note { transition: transform 0.6s var(--ease-out), box-shadow 0.6s, opacity 0.9s var(--ease-out), translate 0.9s var(--ease-out); }
+.contact__note:hover { transform: scale(1.015); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+
+/* ---------- Top 버튼 ---------- */
+.top { transition: opacity 0.3s, visibility 0.3s, transform 0.35s var(--ease-out), box-shadow 0.3s; }
+.top svg { transition: transform 0.35s var(--ease-out); }
+.top.is-on:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(245, 255, 140, 0.25); }
+.top.is-on:hover svg { transform: translateY(-3px); }
+.top.is-on:active { transform: scale(0.92); transition-duration: 0.08s; }
+
+
+/* ---------- 버튼 호버: 노란색이 왼쪽에서 쭉 차오름 ---------- */
+.gnb a::before,
+.project__back::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.45s var(--ease-out);
+}
+.gnb a:hover::before,
+.gnb a:focus-visible::before,
+.project__back:hover::before,
+.project__back:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+.gnb a:hover,
+.gnb a:focus-visible { color: var(--ink); }
+.gnb a:active,
+.project__back:active { scale: 0.96; }
+.gnb a:focus-visible { outline: none; }
+.project__back {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: color 0.35s var(--ease-out), scale 0.15s;
+}
+.project__back:hover { background: transparent; color: var(--ink); }
+
+/* ---------- 클릭 물결 (script.js) ---------- */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(45, 43, 47, 0.25);
+  transform: scale(0);
+  animation: ripple 0.6s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes ripple { to { transform: scale(2.6); opacity: 0; } }
+.tag, .top { overflow: hidden; }
+.top { position: relative; }
+
+/* ---------- 커스텀 커서: 노란 원 (fill) (데스크톱) ---------- */
+.has-cursor, .has-cursor * { cursor: none !important; }
+.cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  mix-blend-mode: difference;           /* 글자 위에서도 글자가 보이도록 */
+}
+.cursor-ring__shape {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: transform 0.4s var(--ease-out);
+}
+.cursor-ring__label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -0.65em 0 0 -2.2em;
+  width: 4.4em;
+  line-height: 1.3;
+  text-align: center;
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--ink);
+  white-space: nowrap;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.25s, transform 0.4s var(--ease-out);
+}
+.is-cursor-on .cursor-ring { opacity: 1; }
+
+/* 링크·버튼 위: 조금 커짐 */
+.cursor-ring.is-link .cursor-ring__shape { transform: scale(2.6); }
+/* 프로젝트 카드 위: 노란 원 + View */
+.cursor-ring.is-view { mix-blend-mode: normal; }
+.cursor-ring.is-view .cursor-ring__shape { transform: scale(4.6); }
+.cursor-ring.is-view .cursor-ring__label { opacity: 1; transform: scale(1); transition-delay: 0.08s; }
+/* 클릭 */
+.cursor-ring.is-down .cursor-ring__shape { transform: scale(0.7); transition-duration: 0.12s; }
+.cursor-ring.is-link.is-down .cursor-ring__shape { transform: scale(2.2); }
+.cursor-ring.is-view.is-down .cursor-ring__shape { transform: scale(4.2); }
+
+@media (hover: none), (max-width: 1023px) { .cursor-ring { display: none; } }
+
+
+/* =========================================================
+   PROJECT DETAIL — 카드 클릭 시 아래에서 올라오는 전체 화면
+   ========================================================= */
+.project {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  translate: 0 100%;
+  transition: translate 0.7s var(--ease-out), visibility 0s linear 0.7s;
+  visibility: hidden;
+}
+.project[hidden] { display: block; }       /* 애니메이션을 위해 hidden 이어도 렌더 유지 */
+.project.is-open {
+  translate: 0 0;
+  visibility: visible;
+  transition: translate 0.7s var(--ease-out), visibility 0s;
+}
+.is-project-open { overflow: hidden; }       /* 뒤 페이지 스크롤 잠금 */
+.is-project-open .dock { opacity: 0; pointer-events: none; }
+.dock { transition: opacity 0.3s; }
+
+.project__bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px max(24px, calc(45 * var(--u)));
+  background: rgba(26, 26, 26, 0.8);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.project__name {
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: 20px;
+  color: var(--accent);
+}
+.project__close {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.35s var(--ease-out);
+}
+.project__close svg { width: 22px; height: 22px; }
+.project__close:hover { transform: rotate(90deg); }
+.project__close:active { transform: rotate(90deg) scale(0.9); }
+.project__close:focus-visible,
+.project__back:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+
+.project__slides {
+  /* 좌우 여백 각 300 (1440 화면 기준, 화면 폭에 비례) */
+  padding: 0 calc(300 * var(--u));
+  display: flex;
+  flex-direction: column;
+}
+.project__slides img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #24232a;
+}
+
+.project__end {
+  display: flex;
+  justify-content: center;
+  padding: 64px 24px 96px;
+}
+.project__back {
+  padding: 14px 28px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--accent);
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+.project__back:hover { background: var(--accent); color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .js .reveal { opacity: 1; translate: none; clip-path: none; }
+  .cursor-ring { display: none; }
+}
