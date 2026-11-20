@@ -893,6 +893,23 @@ button { font: inherit; }
 }
 .article__list { margin-top: calc(120 * var(--u)); }
 .article__list:empty { display: none; }
+.article__item + .article__item { margin-top: calc(72 * var(--u)); }   /* 글 사이 간격 */
+/* 제목 + 아래 스트로크. 호버하면 노란 선이 왼쪽에서 채워짐 */
+.article__item a {
+  display: block;
+  padding-bottom: calc(28 * var(--u));
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: calc(36 * var(--u));
+  line-height: calc(42.96 * var(--u));
+  letter-spacing: calc(-0.36 * var(--u));
+  background:
+    linear-gradient(var(--accent), var(--accent)) left bottom / 0% 1px no-repeat,
+    linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)) left bottom / 100% 1px no-repeat;
+  transition: color 0.3s, background-size 0.5s var(--ease-out);
+}
+.article__item a:hover,
+.article__item a:focus-visible { color: var(--accent); background-size: 100% 1px, 100% 1px; outline: none; }
 .article__empty {
   margin-top: calc(120 * var(--u));
   font-family: var(--pt);
@@ -904,6 +921,13 @@ button { font: inherit; }
 @keyframes article-in { from { opacity: 0; translate: 0 28px; } }
 .article > * { animation: article-in 0.9s var(--ease-out) both; }
 .article > :nth-child(2), .article > :nth-child(3) { animation-delay: 0.12s; }
+.article__item { animation: article-in 0.9s var(--ease-out) both; }
+.article__item:nth-child(1) { animation-delay: 0.22s; }
+.article__item:nth-child(2) { animation-delay: 0.29s; }
+.article__item:nth-child(3) { animation-delay: 0.36s; }
+.article__item:nth-child(4) { animation-delay: 0.43s; }
+.article__item:nth-child(5) { animation-delay: 0.50s; }
+.article__item:nth-child(6) { animation-delay: 0.57s; }
 
 @media (max-width: 1023px) {
   .article { padding: 28px 24px 140px; }
@@ -914,6 +938,8 @@ button { font: inherit; }
     letter-spacing: -0.02em;
   }
   .article__list, .article__empty { margin-top: 48px; }
+  .article__item + .article__item { margin-top: 40px; }
+  .article__item a { padding-bottom: 18px; font-size: 22px; line-height: 1.35; letter-spacing: -0.01em; }
   .article__empty { font-size: 16px; line-height: 1.7; }
 }
 
