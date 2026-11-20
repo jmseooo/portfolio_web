@@ -882,6 +882,17 @@ button { font: inherit; }
   min-height: 100vh;
   padding: calc(72 * var(--u)) calc(127 * var(--u)) calc(240 * var(--u));
 }
+/* 뒤로가기: 화살표만, 눈에 띄지 않게 */
+.article__back {
+  display: inline-flex;
+  margin: 0 0 calc(32 * var(--u)) calc(-93 * var(--u));   /* 화살표 선 끝을 'Article' 시작선(44)에 맞춤 */
+  padding: calc(6 * var(--u));
+  color: var(--dim);
+  transition: color 0.25s, translate 0.35s var(--ease-out);
+}
+.article__back svg { width: calc(32 * var(--u)); height: calc(32 * var(--u)); }
+.article__back:hover,
+.article__back:focus-visible { color: var(--accent); translate: calc(-6 * var(--u)) 0; outline: none; }
 .article__title {
   margin-left: calc(-83 * var(--u));     /* 히어로 'Product'와 같은 시작선(44) */
   font-family: var(--ws);
@@ -931,6 +942,8 @@ button { font: inherit; }
 
 @media (max-width: 1023px) {
   .article { padding: 28px 24px 140px; }
+  .article__back { margin: 0 0 20px -6px; padding: 6px; }
+  .article__back svg { width: 28px; height: 28px; }
   .article__title {
     margin-left: -0.066em;
     font-size: clamp(64px, 17vw, 120px);
