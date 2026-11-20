@@ -874,6 +874,49 @@ button { font: inherit; }
 }
 .project__back:hover { background: var(--accent); color: var(--ink); }
 
+/* =========================================================
+   ARTICLE 페이지 (article.html)
+   ========================================================= */
+.article {
+  position: relative;
+  min-height: 100vh;
+  padding: calc(72 * var(--u)) calc(127 * var(--u)) calc(240 * var(--u));
+}
+.article__title {
+  margin-left: calc(-83 * var(--u));     /* 히어로 'Product'와 같은 시작선(44) */
+  font-family: var(--ws);
+  font-weight: 500;
+  font-size: calc(110 * var(--u));
+  line-height: calc(131.27 * var(--u));
+  letter-spacing: calc(-2.2 * var(--u));
+  color: var(--accent);
+}
+.article__list { margin-top: calc(120 * var(--u)); }
+.article__list:empty { display: none; }
+.article__empty {
+  margin-top: calc(120 * var(--u));
+  font-family: var(--pt);
+  font-size: calc(18.18 * var(--u));
+  line-height: calc(38.95 * var(--u));
+  color: var(--dim);
+}
+.article__list:not(:empty) + .article__empty { display: none; }
+@keyframes article-in { from { opacity: 0; translate: 0 28px; } }
+.article > * { animation: article-in 0.9s var(--ease-out) both; }
+.article > :nth-child(2), .article > :nth-child(3) { animation-delay: 0.12s; }
+
+@media (max-width: 1023px) {
+  .article { padding: 28px 24px 140px; }
+  .article__title {
+    margin-left: -0.066em;
+    font-size: clamp(64px, 17vw, 120px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .article__list, .article__empty { margin-top: 48px; }
+  .article__empty { font-size: 16px; line-height: 1.7; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
