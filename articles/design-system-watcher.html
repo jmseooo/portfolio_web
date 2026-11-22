@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>손으로 알리던 디자인 시스템 변경을 자동으로 전달하기 — Jin Minseo</title>
+  <meta name="description" content="디자인 시스템을 고칠 때마다 직접 쓰던 공지를 자동화했습니다. 실제 알림을 주고받으며 오탐과 누락을 하나씩 줄여간 과정을 담았습니다." />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Jin Minseo Portfolio" />
+  <meta property="og:url" content="https://jinminseo-portfolio.vercel.app/articles/design-system-watcher.html" />
+  <meta property="og:title" content="손으로 알리던 디자인 시스템 변경을 자동으로 전달하기" />
+  <meta property="og:description" content="디자인 시스템을 고칠 때마다 직접 쓰던 공지를 자동화했습니다. 실제 알림을 주고받으며 오탐과 누락을 하나씩 줄여간 과정을 담았습니다." />
+  <meta property="og:image" content="https://jinminseo-portfolio.vercel.app/assets/og-image.jpg" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/static/complete/WantedSans.min.css" />
+  <link rel="stylesheet" href="../styles.css?v=20" />
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body class="page-post">
+  <main>
+    <article class="post">
+      <a class="article__back post__back" href="../article.html" id="back" aria-label="아티클 목록으로 돌아가기">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </a>
+
+      <header class="post__head">
+        <p class="post__meta"><time datetime="2026-11-17">2026.11.17</time></p>
+        <h1 class="post__title">손으로 알리던 디자인 시스템 변경을 자동으로 전달하기</h1>
+        <p class="post__summary">디자인 시스템을 고칠 때마다 직접 쓰던 공지를 자동화했습니다. 실제 알림을 주고받으며 오탐과 누락을 하나씩 줄여간 과정을 담았습니다.</p>
+        <ul class="post__tags" aria-label="태그">
+          <li>회고</li><li>디자인시스템</li><li>자동화</li><li>Figma</li>
+        </ul>
+      </header>
+
+      <div class="post__body">
+        <blockquote><p>Figma 작업을 끝낸 뒤 공지까지 챙기던 일을, 봇에게 넘겼습니다.</p></blockquote>
+
+        <h2>왜 시작했나</h2>
+        <p>디자인 시스템을 고친 날에는 늘 일이 하나 더 남았습니다. 바꾼 값과 Figma 링크를 찾아 Discord 공지로 정리하는 일이었습니다. 작은 변경은 “이따 알려야지” 하다가 빠지기 쉬웠습니다.</p>
+        <p>모든 차이를 보낼 수도 없었습니다. 위치 이동과 작업용 복사본까지 울리면 중요한 알림이 묻힙니다. 우리가 원한 건 개발팀이 움직여야 할 때만 말하는 봇이었습니다.</p>
+        <p><strong>목표</strong></p>
+        <ul>
+          <li>원본 <code>ui › comp</code>를 30분마다 확인합니다.</li>
+          <li>전후 값, Figma 링크, FE 조치를 함께 전달합니다.</li>
+          <li>Figma는 읽기 전용으로 유지하고 월 운영비는 0원으로 맞춥니다.</li>
+        </ul>
+
+        <h2>무엇을 만들었나</h2>
+        <div class="post__table">
+          <table>
+            <thead><tr><th>AS-IS</th><th>TO-BE</th></tr></thead>
+            <tbody>
+              <tr><td>디자이너가 변경사항을 찾아 수동 공지</td><td>손대지 않아도 30분마다 자동 확인</td></tr>
+              <tr><td>변경 내용과 링크를 다시 정리</td><td>전후 값·링크·FE 조치를 한 번에 전달</td></tr>
+              <tr><td>위치 이동과 실제 변경을 사람이 판정</td><td>복사본·좌표·섹션 정리는 자동 제외</td></tr>
+              <tr><td>이름 변경과 삭제를 기억에 의존</td><td>Node ID 기반 스냅샷으로 추적</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure class="post__figure">
+          <img src="../assets/articles/watcher-alert-1.jpg" alt="BILLIT Design System Bot의 Discord 알림 — 디자인 시스템 변경 5건 (Button, Dropdown, list, 아이콘)" width="1602" height="1140" loading="lazy" decoding="async" />
+          <img style="width: 86.14%" src="../assets/articles/watcher-alert-2.jpg" alt="BILLIT Design System Bot의 Discord 알림 — 새 컴포넌트와 아이콘 추가" width="1380" height="700" loading="lazy" decoding="async" />
+          <figcaption>실제로 Discord에 전송된 알림</figcaption>
+        </figure>
+        <p>배포하고 나니 예상하지 못한 장면이 바로 나왔습니다. 타이포를 건드리지 않았는데 변경 알림이 왔고, 실제로 바꾼 Currency 이름은 조용히 지나갔습니다. 새로 만든 Flag는 아이콘이 아니라 일반 컴포넌트로 소개됐습니다. “알림이 왔는가”보다 “무엇이라고 알렸는가”가 더 중요하다는 걸 그때 알았습니다.</p>
+        <p>그 뒤부터 실제 오류를 테스트 케이스로 남겼습니다. 스타일 값과 사용처를 분리하고, 기준선을 바꿔도 이전 이름을 이어받게 했습니다. Flag·Currency·Logo는 에셋으로 따로 보고, variant는 <code>Type=small 추가</code>처럼 달라진 부분만 보여줍니다.</p>
+        <h2>결론</h2>
+        <p>처음에는 알아서 자동화를 하면 될 거라 생각했는데, 실제로는 오탐이 많았고 정확성을 높이는 것도 중요했습니다.</p>
+
+      </div>
+    </article>
+  </main>
+
+  <script src="../cursor.js?v=3"></script>
+  <script>
+    // 아티클 목록에서 왔으면 브라우저 뒤로가기(보던 위치 그대로), 아니면 목록으로
+    document.getElementById('back').addEventListener('click', (e) => {
+      if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+  </script>
+</body>
+</html>

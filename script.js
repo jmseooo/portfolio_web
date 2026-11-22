@@ -105,7 +105,7 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
       watchers.get(entry.target).forEach((el) => el.classList.add('is-in'));
       io.unobserve(entry.target);
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  }, { threshold: 0.01, rootMargin: '0px 0px -20px 0px' });   // 첫 화면 끝에 살짝 걸친 카드도 나타나게
   watchers.forEach((_, target) => io.observe(target));
 }
 
@@ -201,7 +201,7 @@ function openProject(key, { push = true } = {}) {
   openPanel = panel;
   if (push) { history.pushState({ project: key }, '', `#${key}`); pushedState = true; }
   setTimeout(() => panel.querySelector('.project__close').focus({ preventScroll: true }), 50);
-
+  panel.querySelectorAll('video').forEach((v) => { v.currentTime = 0; v.play().catch(() => {}); });   // 영상은 열 때 처음부터 재생
 }
 
 function closeProject({ fromHistory = false } = {}) {
@@ -209,6 +209,7 @@ function closeProject({ fromHistory = false } = {}) {
   const panel = openPanel;
   openPanel = null;
   panel.classList.remove('is-open');
+  panel.querySelectorAll('video').forEach((v) => v.pause());
   document.documentElement.classList.remove('is-project-open');
   resetCursor();
   setTimeout(() => { if (!panel.classList.contains('is-open')) panel.hidden = true; }, 700);
@@ -225,7 +226,7 @@ document.querySelectorAll('[data-project]').forEach((link) => {
     openProject(link.dataset.project);
   });
 });
-document.querySelectorAll('.project__close, .project__back').forEach((btn) => {
+document.querySelectorAll('.project__close, button.project__back').forEach((btn) => {   // App Store 링크(a)는 제외
   btn.addEventListener('click', () => closeProject());
 });
 document.addEventListener('keydown', (e) => {
