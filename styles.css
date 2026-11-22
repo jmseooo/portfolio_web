@@ -384,6 +384,7 @@ button { font: inherit; }
   font-size: calc(15 * var(--u));
   line-height: calc(22 * var(--u));
   color: var(--gray);
+  text-align: center;                    /* 이미지 가운데에 맞춤 */
 }
 
 /* ---------- 고정 UI ---------- */
@@ -543,7 +544,7 @@ button { font: inherit; }
   .contact__links { gap: 32px; }
   .contact__links a:last-child { margin-left: 0; }
   .contact__note { width: min(100%, 488px); height: auto; aspect-ratio: 488 / 650; }
-  .contact__cap { position: static; width: auto; margin-top: -44px; font-size: 13px; line-height: 1.4; }   /* 섹션 간격(56) 대신 이미지 바로 아래 12px */
+  .contact__cap { position: static; width: min(100%, 488px); margin-top: -44px; font-size: 13px; line-height: 1.4; }   /* 섹션 간격(56) 대신 이미지 바로 아래 12px */
 
   .project__slides { padding: 0 16px; }   /* 모바일·태블릿은 여백 최소화 */
   /* ---------- 고정 UI ---------- */
