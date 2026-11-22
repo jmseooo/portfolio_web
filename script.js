@@ -78,7 +78,7 @@ const revealGroups = [
   ['.works__top, .works__title--second', 0, 0.1],
   ['.cards .card', 0.05, 0.07],
   ['.contact__info', 0.05, 0],
-  ['.contact__note', 0.2, 0],
+  ['.contact__note, .contact__cap', 0.2, 0.1],
 ];
 revealGroups.forEach(([sel, start, step]) => {
   document.querySelectorAll(sel).forEach((el, i) => {
