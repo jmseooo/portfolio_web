@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/static/complete/WantedSans.min.css" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=10" />
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
@@ -115,7 +115,7 @@
         <h2 class="works__title works__title--first">Product Design</h2>
       </div>
       <ul class="cards">
-        <li class="card"><a href="#harubee" data-project="harubee" aria-haspopup="dialog"><span class="card__thumb"><img src="assets/harubee.png" alt="" /></span><span class="card__cap"><span>Harubee</span></span></a></li>
+        <li class="card"><a href="#harubee" data-project="harubee" aria-haspopup="dialog"><span class="card__thumb"><img src="assets/harubee.png" alt="" /></span><span class="card__cap"><span>Harubee</span></span><span class="card__desc">Finance app in App Store</span></a></li>
         <li class="card"><a href="#" class="is-soon" aria-disabled="true"><span class="card__thumb"><span class="card__soon">Coming soon</span><img src="assets/ringle.png" alt="" /></span><span class="card__cap"><span>Ringle AI Product</span><span class="card__badge">Award</span></span></a></li>
         <li class="card"><a href="#" class="is-soon" aria-disabled="true"><span class="card__thumb"><span class="card__soon">Coming soon</span><img src="assets/coco.png" alt="" /></span><span class="card__cap"><span>coco</span></span></a></li>
         <li class="card"><a href="#" class="is-soon" aria-disabled="true"><span class="card__thumb"><span class="card__soon">Coming soon</span><img src="assets/bofit.png" alt="" /></span><span class="card__cap"><span>Bofit</span></span></a></li>
@@ -124,7 +124,7 @@
 
       <h2 class="works__title works__title--second">Built with AI</h2>
       <ul class="cards">
-        <li class="card"><a href="#" class="is-soon" aria-disabled="true"><span class="card__thumb"><span class="card__soon">Coming soon</span><img src="assets/suners.png" alt="" /></span><span class="card__cap"><span>SUNERS</span></span></a></li>
+        <li class="card"><a href="#suners" data-project="suners" aria-haspopup="dialog"><span class="card__thumb"><img src="assets/suners.png" alt="" /></span><span class="card__cap"><span>SUNERS</span></span></a></li>
         <li class="card"><a href="#" class="is-soon" aria-disabled="true"><span class="card__thumb"><span class="card__soon">Coming soon</span><img src="assets/graduation.png" alt="" /></span><span class="card__cap"><span>Graduation Web</span></span></a></li>
         <li class="card"><a href="#" class="is-soon" aria-disabled="true"><span class="card__thumb"><span class="card__soon">Coming soon</span><img src="assets/stickie.png" alt="" /></span><span class="card__cap"><span>Stickie</span></span></a></li>
       </ul>
@@ -169,6 +169,23 @@
     </div>
   </div>
 
+  <div class="project" id="project-suners" role="dialog" aria-modal="true" aria-label="SUNERS 프로젝트" hidden>
+    <div class="project__bar">
+      <p class="project__name">SUNERS</p>
+      <button class="project__close" type="button" aria-label="닫기">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+      </button>
+    </div>
+    <div class="project__slides">
+      <img src="assets/suners/01.jpg" alt="Suners 표지 — 현지 일출 시간에 맞춰 깨워주는 알람 앱" width="1920" height="1357" decoding="async" />
+      <img src="assets/suners/02.jpg" alt="Be Suners — 고정 알람 대신 아침 해에 맞춰 일어나기, 주요 화면" width="1920" height="1357" loading="lazy" decoding="async" />
+      <img src="assets/suners/03.jpg" alt="The Suners — 날씨에 따라 생성되는 그래픽과 Natural·Energy·Wellness" width="1920" height="1357" loading="lazy" decoding="async" />
+    </div>
+    <div class="project__end">
+      <button class="project__back" type="button">← Works로 돌아가기</button>
+    </div>
+  </div>
+
   <!-- ========== 고정 UI: Top 버튼 + GNB ========== -->
   <div class="dock">
     <button class="top" id="top" type="button" aria-label="맨 위로">
@@ -184,5 +201,6 @@
 
   <script src="cursor.js?v=3"></script>
   <script src="script.js?v=3"></script>
+  <script src="buddy.js?v=5"></script>
 </body>
 </html>
