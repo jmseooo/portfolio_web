@@ -253,10 +253,10 @@ button { font: inherit; }
 }
 .works__title--first  { margin-left: calc(2 * var(--u)); }
 .works__title--second { margin: calc(80 * var(--u) - 6px) 0 0; }  /* 스크롤 줄 아래 여백 6px 보정 */
-.hero__at {
+.about__at {
   position: absolute;
-  left: calc(127 * var(--u));           /* 다른 섹션 내용 시작선(Works 카드·Contact)과 동일 */
-  top: calc(890.5 * var(--u));          /* 오른쪽 아래 메뉴(883~922)와 같은 줄 */
+  left: calc(183 * var(--u));           /* 프로필 이름과 같은 시작선 */
+  top: calc(597 * var(--u));            /* 이름(565~589) 바로 아래 */
   font-family: var(--ws);
   font-weight: 500;
   font-size: calc(20 * var(--u));
@@ -450,7 +450,6 @@ button { font: inherit; }
   .hero__meta--portfolio { order: 1; position: absolute; left: auto; right: 24px; top: 28px; }
   .hero__word--year { order: 3; align-self: flex-end; }
   .hero__tagline { order: 4; margin-top: 28px; white-space: normal; }
-  .hero__at { order: 5; position: static; margin-top: 24px; align-self: flex-start; font-size: 16px; line-height: 1.3; }
 
   .hero__word {
     font-size: clamp(64px, 17vw, 120px);
@@ -482,8 +481,10 @@ button { font: inherit; }
   }
   .portrait { position: relative; inset: auto; width: min(100%, 367px); margin-top: 48px; }
   .tag { font-size: clamp(13px, 4vw, 20px); }
-  .about__name { margin-top: 20px; gap: 12px; font-size: 18px; line-height: 1.3; }
-  .about__bio { width: auto; max-width: 480px; margin-top: 20px; min-height: 0; font-size: 15px; line-height: 1.85; }
+  /* 이름·소개를 사진의 왼쪽 선에 맞춤 (사진은 태그 자리 때문에 칸 안에서 14.766% 들어가 있음) */
+  .about__name { margin-top: 20px; margin-left: calc(min(100%, 367px) * 0.14766); gap: 12px; font-size: 18px; line-height: 1.3; }
+  .about__at { align-self: flex-start; margin-top: 8px; margin-left: calc(min(100%, 367px) * 0.14766); font-size: 15px; line-height: 1.3; }
+  .about__bio { width: auto; max-width: 480px; margin-top: 20px; margin-left: calc(min(100%, 367px) * 0.14766); min-height: 0; font-size: 15px; line-height: 1.85; }
 
   .resume { width: auto; margin-top: 72px; gap: 40px; }
   .acc.is-open { margin-bottom: 0; }
@@ -601,10 +602,10 @@ button { font: inherit; }
 .contact__links a:not(.u):hover { background-size: 100% 1px; }
 .contact__links a:not(.u):hover { color: var(--accent); }
 
-.hero__at,
+.about__at,
 .contact__links .u,
 .about__daily { transition: color 0.25s, opacity 0.9s var(--ease-out), translate 0.9s var(--ease-out); }
-.hero__at:hover,
+.about__at:hover,
 .contact__links .u:hover { color: var(--accent); }
 
 /* ---------- 프로필 ---------- */
@@ -1035,11 +1036,10 @@ button { font: inherit; }
 
 /* ---------- 히어로 바로 아래 프로젝트가 첫 화면 끝에 살짝 걸쳐 보이게 ---------- */
 @media (min-width: 1024px) {
-  .hero { height: clamp(calc(560 * var(--u)), calc(100svh - 210px), calc(1024 * var(--u))); }
-  .hero__at { top: auto; bottom: calc(56 * var(--u)); }    /* 히어로 아래쪽 끝 가까이 */
+  .hero { height: clamp(calc(560 * var(--u)), calc(100svh - 92px), calc(1024 * var(--u))); }
 }
 @media (max-width: 1023px) {
-  .hero { min-height: calc(100svh - 150px); padding-bottom: 40px; }
+  .hero { min-height: calc(100svh - 124px); padding-bottom: 40px; }   /* 하단 메뉴 바로 위에 제목만 살짝 */
   .works { padding-top: 28px; }
 }
 

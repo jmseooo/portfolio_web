@@ -72,8 +72,8 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 const revealGroups = [
   // [선택자, 시작 지연(초), 요소 간 간격(초)]
   ['.hero__word--product, .hero__word--designer, .hero__word--year', 0.1, 0.12],
-  ['.hero__meta, .hero__tagline, .hero__at', 0.55, 0.1],
-  ['.portrait, .about__name, .about__bio', 0.05, 0.1],
+  ['.hero__meta, .hero__tagline', 0.55, 0.1],
+  ['.portrait, .about__name, .about__at, .about__bio', 0.05, 0.1],
   ['.resume .acc', 0.15, 0.08],
   ['.works__top, .works__title--second', 0, 0.1],
   ['.cards .card', 0.05, 0.07],
