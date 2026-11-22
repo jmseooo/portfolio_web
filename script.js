@@ -68,23 +68,27 @@ document.querySelectorAll('.acc .resume__head:not(:disabled)').forEach((btn) => 
 });
 
 // ---------- 스크롤 등장 애니메이션 ----------
-// 히어로 큰 글자는 글자 하나씩 아래에서 올라오도록 쪼갬 (스크린리더는 숨긴 원문을 읽음)
-document.querySelectorAll('.hero__word').forEach((word, wi) => {
-  const text = word.textContent.trim();
-  word.textContent = '';
+// 히어로 텍스트가 모두 아래에서 올라오도록 쪼갬
+// - 큰 글자·이름·Portfolio: 글자 하나씩 (스크린리더는 숨긴 원문을 읽음)
+// - 소개 문장은 쪼개지 않고 흐릿했다가 또렷해짐 (styles.css)
+const splitChars = (el, start, step) => {
+  const text = el.textContent.trim();
+  el.textContent = '';
   const sr = document.createElement('span');
   sr.className = 'sr-only';
   sr.textContent = text;
-  word.append(sr);
+  el.append(sr);
   [...text].forEach((c, i) => {
     const ch = document.createElement('span');
     ch.className = 'ch';
     ch.setAttribute('aria-hidden', 'true');
-    ch.textContent = c;
-    ch.style.setProperty('--cd', `${0.1 + wi * 0.15 + i * 0.035}s`);
-    word.append(ch);
+    ch.textContent = c === ' ' ? '\u00a0' : c;
+    ch.style.setProperty('--cd', `${start + i * step}s`);
+    el.append(ch);
   });
-});
+};
+document.querySelectorAll('.hero__word').forEach((w, wi) => splitChars(w, 0.1 + wi * 0.15, 0.035));
+document.querySelectorAll('.hero__meta').forEach((m, mi) => splitChars(m, 0.5 + mi * 0.1, 0.025));
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const revealGroups = [
   // [선택자, 시작 지연(초), 요소 간 간격(초)]
