@@ -597,6 +597,16 @@ button { font: inherit; }
 .hero .ch { display: inline-block; }
 .js .hero .reveal .ch { translate: 0 110%; transition: translate 0.9s var(--ease-out); transition-delay: var(--cd, 0s); }
 .js .hero .reveal.is-in .ch { translate: 0 0; }
+/* Works 제목(Built with AI · Product Design): 보이면 글자가 하나씩 올라오고, 마우스를 올리면 글자가 차례로 폴짝 */
+.works__title .ch { display: inline-block; }
+.js .works__top.reveal, .js .works__title--second.reveal { translate: none; opacity: 1; transition: none; }
+.js .works__title { clip-path: inset(-0.3em -0.2em -0.3em -0.2em); }
+.js .works .reveal .ch { translate: 0 110%; transition: translate 0.9s var(--ease-out); transition-delay: var(--cd, 0s); }
+.js .works .reveal.is-in .ch { translate: 0 0; }
+.works__title:hover .ch { animation: title-hop 0.5s var(--ease-out) calc(var(--i, 0) * 0.03s); }
+.works__title:hover { color: var(--accent); }
+.works__title { transition: color 0.3s; cursor: default; }
+@keyframes title-hop { 40% { transform: translateY(-0.18em); } }
 /* 소개 문장: 글자들이 다 올라온 뒤 흐릿했다가 초점이 맞듯 또렷해짐 */
 .js .hero__tagline.reveal { translate: none; transition: none; }
 .js .hero__tagline.reveal.is-in { animation: focus-in 1.3s var(--ease-out) 1.1s both; }   /* transition 대신 animation: 등장 시점과 상관없이 항상 재생 */
@@ -1111,9 +1121,48 @@ button { font: inherit; }
   .post__body h2 { margin-top: 48px; font-size: 23px; }
 }
 
+/* ---------- 히어로 스크롤 유도: 'Scroll' + 아래로 흘러내리는 노란 선 ---------- */
+.hero > .hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  translate: -50% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font: 500 12px/1 var(--pt);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray);
+  opacity: 0;
+  animation: scroll-cue-in 1s var(--ease-out) 2.2s forwards;   /* 히어로 글자가 다 나온 뒤 */
+  transition: color 0.25s;
+}
+.hero__scroll:hover { color: var(--accent); }
+.hero__scroll-line { position: relative; width: 1px; height: 44px; overflow: hidden; background: rgba(255, 255, 255, 0.18); }
+.hero__scroll-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 16px;
+  background: var(--accent);
+  animation: scroll-cue-drop 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes scroll-cue-in { from { opacity: 0; translate: -50% -8px; } to { opacity: 1; translate: -50% 0; } }
+@keyframes scroll-cue-drop { from { transform: translateY(-100%); } to { transform: translateY(300%); } }
+.is-scrolled .hero__scroll { visibility: hidden; }   /* 조금이라도 내리면 사라짐 */
+@media (max-width: 1023px) {
+  .hero > .hero__scroll { position: static; order: 6; align-self: center; margin-top: 28px; translate: none; animation-name: scroll-cue-in-m; }   /* 모바일: 소개 문장 아래 흐름 안에 */
+  @keyframes scroll-cue-in-m { from { opacity: 0; } to { opacity: 1; } }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .js .reveal { opacity: 1; translate: none; clip-path: none; }
   .cursor-ring { display: none; }
+  .hero > .hero__scroll { opacity: 1; }   /* 애니메이션 없이 바로 보임 */
 }

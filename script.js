@@ -11,6 +11,7 @@ function sync() {
   }
   links.forEach((a) => a.classList.toggle('is-active', a.dataset.target === current));
   topBtn.classList.toggle('is-on', current !== 'home');
+  document.documentElement.classList.toggle('is-scrolled', window.scrollY > 40);   // 히어로 스크롤 유도 숨김
 }
 
 let ticking = false;
@@ -84,11 +85,13 @@ const splitChars = (el, start, step) => {
     ch.setAttribute('aria-hidden', 'true');
     ch.textContent = c === ' ' ? '\u00a0' : c;
     ch.style.setProperty('--cd', `${start + i * step}s`);
+    ch.style.setProperty('--i', i);
     el.append(ch);
   });
 };
 document.querySelectorAll('.hero__word').forEach((w, wi) => splitChars(w, 0.1 + wi * 0.15, 0.035));
 document.querySelectorAll('.hero__meta').forEach((m, mi) => splitChars(m, 0.5 + mi * 0.1, 0.025));
+document.querySelectorAll('.works__title').forEach((t) => splitChars(t, 0.05, 0.03));   // Built with AI · Product Design
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const revealGroups = [
   // [선택자, 시작 지연(초), 요소 간 간격(초)]
