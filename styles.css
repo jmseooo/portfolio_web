@@ -237,7 +237,7 @@ button { font: inherit; }
 }
 
 /* ---------- WORKS ---------- */
-.works { padding: calc(37 * var(--u)) 0 0 calc(127 * var(--u)); }
+.works { padding: calc(280 * var(--u)) 0 0 calc(127 * var(--u)); }
 .works__top {
   display: flex;
   align-items: flex-start;
@@ -1073,13 +1073,13 @@ button { font: inherit; }
 .buddy.is-hop { opacity: 0; translate: 0 -18px; transition: opacity 0.35s, translate 0.35s ease-out; }
 .buddy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* ---------- 히어로 바로 아래 프로젝트가 첫 화면 끝에 살짝 걸쳐 보이게 ---------- */
+/* ---------- 히어로가 첫 화면 전체를 채워 프로젝트는 스크롤해야 보이게 ---------- */
 @media (min-width: 1024px) {
-  .hero { height: clamp(calc(560 * var(--u)), calc(100svh - 92px), calc(1024 * var(--u))); }
+  .hero { height: max(calc(560 * var(--u)), 100svh); }
 }
 @media (max-width: 1023px) {
-  .hero { min-height: calc(100svh - 124px); padding-bottom: 40px; }   /* 하단 메뉴 바로 위에 제목만 살짝 */
-  .works { padding-top: 28px; }
+  .hero { min-height: 100svh; }
+  .works { padding-top: 180px; }
 }
 
 /* =========================================================
@@ -1167,3 +1167,13 @@ button { font: inherit; }
   .cursor-ring { display: none; }
   .hero > .hero__scroll { opacity: 1; }   /* 애니메이션 없이 바로 보임 */
 }
+
+/* ---------- 히어로 → 프로젝트 전환: 스크롤할수록 히어로가 살짝 가라앉고 흐려짐 ---------- */
+.js .hero {
+  transform-origin: 50% 100%;
+  translate: 0 calc(var(--hp, 0) * 18vh);
+  scale: calc(1 - var(--hp, 0) * 0.06);
+  opacity: calc(1 - var(--hp, 0) * 0.85);
+  will-change: translate, scale, opacity;
+}
+.js .works { position: relative; z-index: 1; }

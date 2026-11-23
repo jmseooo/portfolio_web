@@ -12,7 +12,14 @@ function sync() {
   links.forEach((a) => a.classList.toggle('is-active', a.dataset.target === current));
   topBtn.classList.toggle('is-on', current !== 'home');
   document.documentElement.classList.toggle('is-scrolled', window.scrollY > 40);   // 히어로 스크롤 유도 숨김
+  // 히어로를 지나갈수록 살짝 뒤로 밀려나며 흐려짐 (0 → 1)
+  if (heroEl && !heroCalm.matches) {
+    const p = Math.min(Math.max(window.scrollY / heroEl.offsetHeight, 0), 1);
+    heroEl.style.setProperty('--hp', p.toFixed(3));
+  }
 }
+const heroEl = document.querySelector('.hero');
+const heroCalm = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 let ticking = false;
 window.addEventListener('scroll', () => {
