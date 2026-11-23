@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Steadi Interaction — 바이브코딩 인터랙션 개선</title>
+<!-- 다른 웹에 그대로 넣는 단독 페이지. 이 폴더(index.html + video/)를 통째로 올리고 iframe이나 링크로 연다 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css" />
+<style>
+  /* ===== 여기 값만 바꾸면 전체 모양이 바뀌어요 (iframe 주소 ?bg=000000 처럼 덮어쓰기도 가능, README 참고) ===== */
+  :root {
+    --bg: #f4f5f7;            /* 페이지 배경 */
+    --card: #ffffff;          /* 항목 카드 배경 */
+    --text: #292c2d;          /* 제목 글자 */
+    --text-sub: #6b6e75;      /* 설명 글자 */
+    --text-muted: #8d9097;    /* 흐린 글자 */
+    --asis-panel: #eef0f3;    /* As-is 영상 테두리 패널 */
+    --asis-label: #55585f;
+    --asis-info: #f2f3f5;     /* As-is 설명 카드 */
+    --asis-line: #9a9ca3;     /* As-is 곡선 · 점 */
+    --tobe-panel: #4b5160;    /* To-be 영상 테두리 패널 */
+    --tobe-label: #ffffff;
+    --tobe-info: #e3f2fd;     /* To-be 설명 카드 */
+    --tobe-info-border: #bfe3fb;
+    --accent: #2f8fe0;        /* To-be 칩 */
+    --tobe-line: #4fb3f6;     /* To-be 곡선 · 점 */
+    --radius: 32px;           /* 항목 카드 모서리 (패널 · 영상 모서리도 비례) */
+    --pad: 40px;              /* 좌우 여백 */
+    --font: "SUIT Variable", "SUIT", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+  .wrap { padding: 0 var(--pad) 64px; }
+  .intro { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; padding: 56px 0; }
+  .intro h1 { font-size: 17px; font-weight: 600; }
+  .intro p { max-width: 720px; font-size: 16px; line-height: 1.7; color: var(--text-sub); }
+  .intro p + p { margin-top: 16px; font-size: 14px; color: var(--text-muted); }
+  .list { display: flex; flex-direction: column; gap: 32px; }
+  .case { background: var(--card); border-radius: var(--radius); padding: 40px; }
+  .meta { font-size: 13px; color: var(--text-muted); }
+  .meta b { font-weight: 400; color: var(--text-sub); border-left: 2px solid var(--text); padding-left: 8px; margin-right: 8px; }
+  .case h2 { margin-top: 12px; font-size: 24px; font-weight: 700; }
+  .case > p { margin-top: 8px; font-size: 15px; color: var(--text-sub); }
+  .pair { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .panel { border-radius: calc(var(--radius) * 0.75); padding: 16px; background: var(--asis-panel); }
+  .dark .panel { background: var(--tobe-panel); }
+  .label { display: flex; justify-content: space-between; align-items: baseline; padding: 0 4px; margin-bottom: 12px; font-size: 12px; }
+  .label span:first-child { font-weight: 600; letter-spacing: 0.08em; color: var(--asis-label); }
+  .label span:last-child { color: var(--text-muted); }
+  .dark .label span:first-child { color: var(--tobe-label); }
+  .dark .label span:last-child { color: var(--tobe-label); opacity: 0.55; }
+  .screen { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: calc(var(--radius) * 0.44); background: #fff; }
+  .screen video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .info { display: flex; align-items: center; gap: 24px; padding: 24px; border-radius: calc(var(--radius) * 0.62); background: var(--asis-info); border: 1px solid transparent; }
+  .dark .info { background: var(--tobe-info); border-color: var(--tobe-info-border); }
+  .info h3 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .info p { margin-top: 8px; font-size: 13px; line-height: 1.6; color: var(--text-sub); }
+  .chips { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips span { border-radius: 999px; padding: 4px 10px; font-size: 11px; font-weight: 500; background: var(--chip-bg, #fff); border: 1px solid var(--chip-border, #d6d8dc); color: var(--asis-label); }
+  .dark .chips span { background: var(--accent); border-color: var(--accent); color: #fff; }
+  /* 곡선 위를 점이 실제 시간만큼 달리고 쉬었다가 반복 (1.6초 주기) */
+  .curve { position: relative; width: 212px; height: 112px; flex-shrink: 0; }
+  .curve svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .curve svg path { stroke: var(--asis-line); }
+  .dark .curve svg path { stroke: var(--tobe-line); }
+  .curve .track { position: absolute; inset: 6px; }
+  .curve .dot { position: absolute; top: 0; left: 0; width: 10px; height: 10px; border-radius: 50%; offset-rotate: 0deg; background: var(--asis-line); }
+  .dark .curve .dot { background: var(--tobe-line); }
+  .curve small { position: absolute; bottom: -20px; font-size: 11px; color: var(--text-muted); }
+  @keyframes run320 { 0% { offset-distance: 0% } 20% { offset-distance: 100% } 100% { offset-distance: 100% } }
+  @keyframes run250 { 0% { offset-distance: 0% } 15.6% { offset-distance: 100% } 100% { offset-distance: 100% } }
+  @media (max-width: 1023px) { .pair { grid-template-columns: 1fr; } }
+  @media (max-width: 767px) { .wrap { padding: 0 20px 40px; } .intro { grid-template-columns: 1fr; } .case { padding: 24px; } .info { flex-direction: column; align-items: flex-start; } }
+  /* ?intro=0 이면 위쪽 소개 문단을 숨겨요 (다른 웹에 이미 제목이 있을 때) */
+  .no-intro .intro { display: none; } .no-intro .wrap { padding-top: var(--pad); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h1>Steadi Interaction — 바이브코딩 인터랙션 개선</h1>
+    <div>
+      <p>프로토타입으로는 보이지 않았던 것들을 바이브코딩으로 직접 구현해 보며, 0.2초 차이가 사용성과 완성도를 크게 좌우한다는 것을 알 수 있었습니다.</p>
+      <p>같은 조작을 두 번 녹화했습니다. 왼쪽은 처음 구현, 오른쪽은 다듬은 인터랙션입니다.</p>
+    </div>
+  </div>
+
+  <div class="list">
+    <section class="case">
+      <p class="meta"><b>Main Feature</b>Home Briefing</p>
+      <h2>손을 떼는 순간 바로 반응하도록</h2>
+      <p>기존 인터랙션에서 사용성 문제를 발견하고, 넘기는 시간이 줄어들도록 사용성을 개선했습니다.</p>
+      <div class="pair">
+        <div class="side">
+          <div class="panel"><div class="label"><span>AS-IS</span><span>0.5배속</span></div>
+            <div class="screen"><video src="video/01-asis.webm" muted playsinline preload="auto"></video></div></div>
+          <div class="info">
+            <div class="curve">
+              <svg viewBox="-6 -6 212 112"><line x1="0" y1="100" x2="200" y2="100" stroke="#00000018"/><line x1="0" y1="0" x2="200" y2="0" stroke="#0000000d"/><path d="M0 100 C84 100 200 0 200 0" fill="none" stroke-width="2"/></svg>
+              <div class="track"><span class="dot" style="offset-path:path('M0 100 C84 100 200 0 200 0');animation:run320 1600ms cubic-bezier(0.42,0,1,1) infinite"></span></div>
+              <small style="left:6px">ease-in</small><small style="right:6px">320ms</small>
+            </div>
+            <div><h3>끝으로 갈수록 빨라지는 곡선</h3><p>손을 땐 직후가 느려 반응이 한 박자 늦게 느껴짐. 90px 이상 끌어야만 다음 카드로 넘어감</p>
+              <div class="chips"><span>ease-in</span><span>320ms</span><span>90px</span></div></div>
+          </div>
+        </div>
+        <div class="side dark">
+          <div class="panel"><div class="label"><span>TO-BE</span><span>0.5배속</span></div>
+            <div class="screen"><video src="video/01-tobe.webm" muted playsinline preload="auto"></video></div></div>
+          <div class="info">
+            <div class="curve">
+              <svg viewBox="-6 -6 212 112"><line x1="0" y1="100" x2="200" y2="100" stroke="#00000018"/><line x1="0" y1="0" x2="200" y2="0" stroke="#0000000d"/><path d="M0 100 C0 100 116 0 200 0" fill="none" stroke-width="2"/></svg>
+              <div class="track"><span class="dot" style="offset-path:path('M0 100 C0 100 116 0 200 0');animation:run250 1600ms cubic-bezier(0,0,0.58,1) infinite"></span></div>
+              <small style="left:6px">ease-out</small><small style="right:6px">250ms</small>
+            </div>
+            <div><h3>처음부터 빠르게 출발하는 곡선</h3><p>손을 떼자마자 날아가고, 90px을 못 넘겨도 0.11px/ms 이상으로 휙 튕기면 넘어감</p>
+              <div class="chips"><span>ease-out</span><span>250ms</span><span>flick 0.11px/ms</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <p class="meta"><b>Main Feature</b>Growth</p>
+      <h2>글로우 위치의 이동 방법 변경</h2>
+      <p>카드를 따라다니는 글로우를 레이아웃 속성 대신 GPU가 처리하는 이동으로 바꿔, 더 매끄럽게 따라오도록 했습니다.</p>
+      <div class="pair">
+        <div class="side">
+          <div class="panel"><div class="label"><span>AS-IS</span><span>초록 = 다시 그리는 영역 · CPU 4배 느리게</span></div>
+            <div class="screen"><video src="video/07-asis.webm" muted playsinline preload="auto"></video></div></div>
+          <div class="info"><div><h3>left · top으로 이동</h3><p>글로우 위치를 레이아웃 속성으로 바꿔 매 프레임 카드 전체를 다시 계산하고 다시 그림</p>
+            <div class="chips"><span>left · top</span><span>매 프레임 레이아웃</span><span>복귀 0.6s</span></div></div></div>
+        </div>
+        <div class="side dark">
+          <div class="panel"><div class="label"><span>TO-BE</span><span>초록 = 다시 그리는 영역 · CPU 4배 느리게</span></div>
+            <div class="screen"><video src="video/07-tobe.webm" muted playsinline preload="auto"></video></div></div>
+          <div class="info"><div><h3>translate로 이동</h3><p>같은 움직임을 GPU가 처리하는 translate로 바꿔, 다시 그리는 양이 줄고 마우스를 바로 따라옴</p>
+            <div class="chips"><span>translate</span><span>GPU 합성</span><span>복귀 0.4s</span></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <p class="meta"><b>Main Feature</b>Home Briefing</p>
+      <h2>브리핑 재생의 디테일</h2>
+      <p>피그마 프로토타입에 없던 장면을 채워, 연결된 경험 자세히 보기와 같은 흐름 · 시간으로 맞췄습니다.</p>
+      <div class="pair">
+        <div class="side">
+          <div class="panel"><div class="label"><span>AS-IS</span><span></span></div>
+            <div class="screen"><video src="video/02-asis.webm" muted playsinline preload="auto"></video></div></div>
+          <div class="info"><div><h3>카드가 놓인 뒤 바로 겹침</h3><p>12장면 · 진행 막대 4칸. 카드 세 장이 한 줄로 놓였다가 스캔 없이 왼쪽으로 겹쳐짐</p>
+            <div class="chips"><span>12장면</span><span>4칸</span><span>스캔 없음</span></div></div></div>
+        </div>
+        <div class="side dark">
+          <div class="panel"><div class="label"><span>TO-BE</span><span></span></div>
+            <div class="screen"><video src="video/02-tobe.webm" muted playsinline preload="auto"></video></div></div>
+          <div class="info"><div><h3>스캔이 지나간 뒤 겹침</h3><p>15장면 · 진행 막대 5칸. 흰 막대가 카드를 위에서 아래로 훑은 뒤 겹쳐지며 공통점을 보여줌</p>
+            <div class="chips"><span>15장면</span><span>5칸</span><span>스캔 2s</span></div></div></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  // iframe 주소로 모양 덮어쓰기: ?bg=000000&card=111111&text=ffffff&accent=ff5a5f&radius=16&intro=0
+  // 이름은 위 :root 변수 이름에서 -- 를 뺀 것. 색은 # 없이 써도 되고, radius · pad는 숫자만 쓰면 px
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var root = document.documentElement;
+    q.forEach(function (value, key) {
+      if (key === "intro") { if (value === "0") root.classList.add("no-intro"); return; }
+      if (key === "font") { root.style.setProperty("--font", value + ", sans-serif"); return; }
+      if (/^[0-9a-fA-F]{3,8}$/.test(value) && key !== "radius" && key !== "pad") value = "#" + value;
+      else if (/^\d+$/.test(value)) value = value + "px";
+      root.style.setProperty("--" + key, value);
+    });
+  })();
+
+  // 항목마다 As-is · To-be 영상을 같이 재생하고, 둘 다 끝나면 함께 처음부터 (무한 반복). 화면에 보일 때만 재생
+  document.querySelectorAll(".case").forEach(function (section) {
+    var vids = Array.prototype.slice.call(section.querySelectorAll("video"));
+    var play = function (v) { var p = v.play(); if (p) p.catch(function () {}); };
+    vids.forEach(function (v) {
+      v.addEventListener("ended", function () {
+        if (vids.every(function (x) { return x.ended; })) vids.forEach(function (x) { x.currentTime = 0; play(x); });
+      });
+    });
+    new IntersectionObserver(function (entries) {
+      vids.forEach(function (v) { entries[0].isIntersecting ? play(v) : v.pause(); });
+    }, { threshold: 0.2 }).observe(section);
+  });
+
+  // iframe으로 넣었을 때 부모 페이지에 높이를 알려 스크롤 없이 늘어나게 한다
+  if (window.parent !== window) {
+    var send = function () { window.parent.postMessage({ type: "steadi-interactions:height", height: document.documentElement.scrollHeight }, "*"); };
+    new ResizeObserver(send).observe(document.body);
+    window.addEventListener("load", send);
+  }
+</script>
+</body>
+</html>

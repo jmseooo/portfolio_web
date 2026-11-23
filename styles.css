@@ -1178,3 +1178,16 @@ button { font: inherit; }
   will-change: translate, scale, opacity;
 }
 .js .works { position: relative; z-index: 1; }
+
+/* 아티클 안 단독 페이지(iframe): 본문(760)보다 넓게 펼쳐 As-is · To-be를 좌우로 (안쪽은 1024px 미만이면 세로로 쌓임) */
+.post__embed {
+  display: block;
+  position: relative;
+  left: 50%;
+  translate: -50% 0;
+  width: min(1280px, calc(100vw - 48px));
+  height: 1200px;   /* 안쪽 페이지가 실제 높이를 알려주면 그 값으로 늘어남 */
+  margin: 48px 0;
+  border: 0;
+  background: var(--bg);
+}

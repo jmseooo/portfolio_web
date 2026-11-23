@@ -275,3 +275,4 @@ if (projectPanels[location.hash.slice(1)]) openProject(location.hash.slice(1), {
 document.querySelectorAll('.card a.is-soon').forEach((a) => {
   a.addEventListener('click', (e) => e.preventDefault());
 });
+
