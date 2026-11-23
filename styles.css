@@ -1076,6 +1076,7 @@ button { font: inherit; }
 /* ---------- 히어로가 첫 화면 전체를 채워 프로젝트는 스크롤해야 보이게 ---------- */
 @media (min-width: 1024px) {
   .hero { height: max(calc(560 * var(--u)), 100svh); }
+  .works { height: calc((1024 + 243) * var(--u)); }   /* 위 여백(280-37)만큼 늘려 카드 캡션이 잘리지 않게 */
 }
 @media (max-width: 1023px) {
   .hero { min-height: 100svh; }
